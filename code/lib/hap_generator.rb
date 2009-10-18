@@ -33,3 +33,18 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 =end
+module Generator
+  def Generator.generator_games(n)
+    games = []
+    (1..n).each do |team|
+      if team == n
+        second_team = 1 
+      else
+        second_team = team + 1
+      end
+      
+      games << "#{team} -> #{second_team}"
+    end 
+    games
+  end
+end

@@ -33,3 +33,21 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 =end
+
+require File.join(File.dirname(__FILE__), "../lib" ,"hap_generator" )
+
+describe "HAP generator" do
+  it "Should say that true is true" do
+    true.should be_true
+  end
+  
+  describe "Given a number of teams" do
+    it "Should return the generator game of each round" do
+      Generator::generator_games(5).should == ["1 -> 2", "2 -> 3", "3 -> 4", "4 -> 5", "5 -> 1"]
+      
+    end
+  end
+
+end
+
+
