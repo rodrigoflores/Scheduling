@@ -44,8 +44,22 @@ describe "HAP generator" do
   describe "Given a number of teams" do
     it "Should return the generator game of each round" do
       Generator::generator_games(5).should == ["1 -> 2", "2 -> 3", "3 -> 4", "4 -> 5", "5 -> 1"]
-      
+      Generator::generator_games(9).should == ["1 -> 2", "2 -> 3", "3 -> 4", "4 -> 5", "5 -> 6","6 -> 7", "7 -> 8","8 -> 9", "9 -> 1"]
     end
+  end
+
+  describe "Given a generator game" do
+    it "Should generate a round" do
+      Generator::generate_round(5,1,2).should == ["1 -> 2","5 -> 3"] 
+      Generator::generate_round(5,2,3).should == ["2 -> 3","4 -> 1"] 
+      Generator::generate_round(5,3,4).should == ["3 -> 4","2 -> 5"] 
+      Generator::generate_round(5,4,5).should == ["4 -> 5","1 -> 3"] 
+      Generator::generate_round(5,5,1).should == ["5 -> 1","4 -> 2"] 
+      Generator::generate_round(7,1,2).should == ["1 -> 2","7 -> 3","4 -> 6" ] 
+      Generator::generate_round(7,2,3).should == ["2 -> 3","4 -> 1","7 -> 5" ] 
+      Generator::generate_round(7,7,1).should == ["7 -> 1","6 -> 2","3 -> 5" ] 
+    end    
+    
   end
 
 end

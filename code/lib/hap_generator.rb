@@ -47,4 +47,32 @@ module Generator
     end 
     games
   end
+  def Generator.generate_round(number_of_teams, home_main, away_main)
+    games = []
+    if home_main % 2 == 0
+      order = -1
+    else
+      order = 1
+    end
+    games << "#{home_main} -> #{away_main}"
+    (1...(number_of_teams/2)).each do |i|
+      team_a = home_main - i
+      if home_main - i <= 0
+        team_a += number_of_teams
+      end
+      
+      team_b = away_main + i
+      if away_main + i > number_of_teams
+        team_b -= number_of_teams
+      end
+
+      if order == 1 
+        games << "#{team_a} -> #{team_b}"
+      else
+        games << "#{team_b} -> #{team_a}"
+      end
+      order *= -1
+    end
+    games
+  end
 end
