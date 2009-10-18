@@ -42,37 +42,30 @@ module Generator
       else
         second_team = team + 1
       end
-      
-      games << "#{team} -> #{second_team}"
+      games << [team,second_team]
     end 
     games
   end
-  def Generator.generate_round(number_of_teams, home_main, away_main)
-    games = []
-    if home_main % 2 == 0
-      order = -1
-    else
-      order = 1
+  
+     
+  def Generator.generate_round(number_of_teams,generator_game)
+    round = [generator_game]
+    (1...number_of_teams/2).each do |i|
+      match = [normalize(generator_game.first - i, number_of_teams ),normalize(generator_game.last + i, number_of_teams)]
+      round << match
     end
-    games << "#{home_main} -> #{away_main}"
-    (1...(number_of_teams/2)).each do |i|
-      team_a = home_main - i
-      if home_main - i <= 0
-        team_a += number_of_teams
-      end
-      
-      team_b = away_main + i
-      if away_main + i > number_of_teams
-        team_b -= number_of_teams
-      end
-
-      if order == 1 
-        games << "#{team_a} -> #{team_b}"
-      else
-        games << "#{team_b} -> #{team_a}"
-      end
-      order *= -1
-    end
-    games
+    round
   end
+
+  private
+  def Generator.normalize(x,n)
+    if x <= 0
+      x + n
+    elsif x > n
+      x - n
+    else
+      x
+    end
+  end
+
 end
