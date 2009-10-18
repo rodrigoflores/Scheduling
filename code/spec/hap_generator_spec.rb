@@ -78,6 +78,12 @@ describe "HAP generator" do
     end
   end
   
-  it "Should return a complete schedule" 
+  it "Should return a complete schedule for 5 teams" do
+    Generator::generate_schedule(5).should == [[[1,2],[5,3]],
+                                               [[2,3],[1,4]],
+                                               [[3,4],[2,5]],
+                                               [[4,5],[3,1]],
+                                               [[5,1],[4,2]]]  
+  end 
 end
 

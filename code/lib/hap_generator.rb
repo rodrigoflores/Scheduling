@@ -56,6 +56,15 @@ module Generator
     end
     round
   end
+  
+  def Generator.generate_schedule(number_of_teams)
+    schedule = []
+    generator_games = generator_games(5)  
+    generator_games.each do |generator_game|
+      schedule << generate_round(5,generator_game)      
+    end
+    schedule
+  end
 
   private
   def Generator.normalize(x,n)
