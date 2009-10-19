@@ -50,9 +50,15 @@ module Generator
      
   def Generator.generate_round(number_of_teams,generator_game)
     round = [generator_game]
+    reverse = true
     (1...number_of_teams/2).each do |i|
       match = [normalize(generator_game.first - i, number_of_teams ),normalize(generator_game.last + i, number_of_teams)]
-      round << match
+      if reverse
+        round << match.reverse
+      else
+        round << match
+      end
+      reverse = !reverse 
     end
     round
   end

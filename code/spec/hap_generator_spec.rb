@@ -56,34 +56,34 @@ describe "HAP generator" do
       end    
       
       it "Should return [[1,2],[5,3] when we have 5 teams with [1,2] generating" do 
-        Generator::generate_round(5,[1,2]).should == [[1,2],[5,3]]
+        Generator::generate_round(5,[1,2]).should == [[1,2],[3,5]]
       end
       
       it "Should return [[2,3],[1,5] when we have 5 teams with [2,3] generating" do 
-        Generator::generate_round(5,[2,3]).should == [[2,3],[1,4]]
+        Generator::generate_round(5,[2,3]).should == [[2,3],[4,1]]
       end
       
       it "Should return [[3,4],[2,5] when we have 5 teams with [3,4] generating" do 
-        Generator::generate_round(5,[3,4]).should == [[3,4],[2,5]]
+        Generator::generate_round(5,[3,4]).should == [[3,4],[5,2]]
       end
 
       it "Should return [[4,5],[3,1] when we have 5 teams with [4,5] generating" do 
-        Generator::generate_round(5,[4,5]).should == [[4,5],[3,1]]
+        Generator::generate_round(5,[4,5]).should == [[4,5],[1,3]]
       end
 
       it "Should return [[5,1],[4,2]] when we have 5 teams with [5,1] generating" do 
-        Generator::generate_round(5,[5,1]).should == [[5,1],[4,2]]
+        Generator::generate_round(5,[5,1]).should == [[5,1],[2,4]]
       end
 
     end
   end
   
   it "Should return a complete schedule for 5 teams" do
-    Generator::generate_schedule(5).should == [[[1,2],[5,3]],
-                                               [[2,3],[1,4]],
-                                               [[3,4],[2,5]],
-                                               [[4,5],[3,1]],
-                                               [[5,1],[4,2]]]  
+    Generator::generate_schedule(5).should == [[[1,2],[3,5]],
+                                               [[2,3],[4,1]],
+                                               [[3,4],[5,2]],
+                                               [[4,5],[1,3]],
+                                               [[5,1],[2,4]]]  
   end 
 end
 
