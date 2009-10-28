@@ -36,38 +36,51 @@ OTHER DEALINGS IN THE SOFTWARE.
 module Generator
   def Generator.generator_games(n)
     games = []
-    (1..n).each do |team|
-      if team == n
-        second_team = 1 
-      else
-        second_team = team + 1
-      end
-      games << [team,second_team]
-    end 
-    games
+    if(n.odd?)
+			(1..n).each do |team|
+      	if team == n
+       		second_team = 1 
+      	else
+        	second_team = team + 1
+      	end
+      	games << [team,second_team]
+    	end 
+    	games
+		else
+			generator_games(n-1)
+		end
   end
   
      
   def Generator.generate_round(number_of_teams,generator_game)
-    round = [generator_game]
-    reverse = true
-    (1...number_of_teams/2).each do |i|
-      match = [normalize(generator_game.first - i, number_of_teams ),normalize(generator_game.last + i, number_of_teams)]
-      if reverse
-        round << match.reverse
-      else
-        round << match
-      end
-      reverse = !reverse 
-    end
-    round
+    if number_of_teams.odd? 
+			round = [generator_game]
+    	reverse = true
+    	(1...number_of_teams/2).each do |i|
+      	match = [normalize(generator_game.first - i, number_of_teams ),normalize(generator_game.last + i, number_of_teams)]
+      	if reverse
+        	round << match.reverse
+      	else
+        	round << match
+      	end
+      	reverse = !reverse 
+    	end
+		else
+			round = generate_round(number_of_teams-1,generator_game)
+			extra_game = [normalize(generator_game.first + number_of_teams/2,number_of_teams - 1),number_of_teams]
+			if generator_game.first.even?
+				extra_game.reverse!
+			end
+			round << extra_game
+		end
+   	round
   end
   
   def Generator.generate_schedule(number_of_teams)
     schedule = []
-    generator_games = generator_games(5)  
+    generator_games = generator_games(number_of_teams)  
     generator_games.each do |generator_game|
-      schedule << generate_round(5,generator_game)      
+      schedule << generate_round(number_of_teams,generator_game)      
     end
     schedule
   end
