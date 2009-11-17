@@ -120,7 +120,8 @@ describe "HAP generator" do
     Generator::generate_schedule(4).should == [[[1,2],[3,4]],
                                                [[2,3],[4,1]],
                                                [[3,1],[2,4]]]  
-  end 
+  end
+  
 
 end
 

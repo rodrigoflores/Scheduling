@@ -40,12 +40,16 @@ module Parser
 
 	def Parser.get_team(stream)
 		team = stream.split(":")[1]
-		team.downcase.gsub(" ","_").gsub("ã","a").gsub("é","e").to_sym
-	end
+		to_symbol(team)
+  end
 
 	def Parser.get_city(stream)
 		city = stream.split(":")[2]
-		city.downcase.gsub(" ","_").gsub("ã","a").gsub("é","e").to_sym
+		to_symbol(city)
 	end
+
+  def Parser.to_symbol(string)
+    string.downcase.gsub(" ","_").gsub("ã","a").gsub("é","e").gsub("ó","o").gsub("í","i").gsub("ê","e").gsub("á","a").gsub("â","a").to_sym
+  end
 
 end

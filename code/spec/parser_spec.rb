@@ -14,6 +14,9 @@ describe "parser" do
 			Parser::get_team("1:Santos:Santos").should == :santos
 			Parser::get_team("1:São Paulo:São Paulo").should == :sao_paulo
 			Parser::get_team("1:Santo André:Santo André").should == :santo_andre
+			Parser::get_team("1:Grêmio:Porto Alegre").should == :gremio
+			Parser::get_team("1:Avaí:Florianópolis").should == :avai
+			Parser::get_team("1:Náutico:Recife").should == :nautico
 		end
 
 		it "Should return the city name as a symbol" do
@@ -21,7 +24,8 @@ describe "parser" do
 			Parser::get_city("1:São Paulo:São Paulo").should == :sao_paulo
 			Parser::get_city("1:Santo André:Santo André").should == :santo_andre
 			Parser::get_city("1:Corinthians:São Paulo").should == :sao_paulo
-			
+			Parser::get_city("1:Avaí:Florianópolis").should == :florianopolis
+			Parser::get_city("1:Goiás:Goiânia").should == :goiania
 		end
 	end
 end

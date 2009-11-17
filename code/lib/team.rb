@@ -41,6 +41,11 @@ module Team
 			@city = city
 			@level = level	
 		end
+    
+    def to_s
+      "#{@level}:#{@name}:#{@city}" 
+    end
+
 			
 	end
 end
