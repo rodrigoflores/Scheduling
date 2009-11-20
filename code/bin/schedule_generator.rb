@@ -70,7 +70,10 @@ puts "Now I will assume that you don't want to minimize (our maximize) anything.
 puts "So I will randomly assign for each team a random number from 1 to size of the team list"
 
 integers = (1..teams.size).to_a
-integers.shuffle!
+
+rand(20).times do 
+  integers.shuffle!
+end
 
 teams.each_with_index do |team,index|
   printf "%d %s",integers[index] ,team
