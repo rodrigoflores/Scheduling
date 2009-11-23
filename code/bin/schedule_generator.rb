@@ -153,6 +153,8 @@ def compute_fine(combination,schedule)
 end
 
 
+puts "Here are the combinations (for integers in the range 1..20) that allow no more than two teams 
+from the same city playing away or at home in the same round"
 
 combinations.each do |combination|
   puts combination.join(sep=",") if compute_fine(combination,schedule) == 0
