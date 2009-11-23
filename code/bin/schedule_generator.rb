@@ -2,9 +2,11 @@
 
 $LOAD_PATH.push File.join(File.dirname(__FILE__),"..","lib")
 
+
 require "parser"
 require "team"
 require "hap_generator"
+require "combo"
 
 USAGE = <<END
 
@@ -68,31 +70,92 @@ schedule = Generator::generate_schedule(teams.size)
 
 puts "Hap patterns generated"
 
-puts "Now I will assume that you don't want to minimize (our maximize) anything."
-puts "So I will randomly assign for each team a random number from 1 to size of the team list"
 
-integers = (1..teams.size).to_a
+=begin
+  puts "Now I will assume that you don't want to minimize (our maximize) anything."
+  puts "So I will randomly assign for each team a random number from 1 to size of the team list"
 
-rand(20).times do 
-  integers.shuffle!
-end
+  integers = (1..teams.size).to_a
 
-teams.each_with_index do |team,index|
-  printf "%d %s",integers[index] ,team
-end 
-
-schedule.each_with_index do |round,index|
-  puts "Round #{index+1}"
-  round.each do |match|
-    puts teams[match.first - 1].name.to_s + " X " + teams[match.last - 1].name.to_s
+  rand(20).times do 
+    integers.shuffle!
   end
-end
 
+  teams.each_with_index do |team,index|
+    printf "%d %s",integers[index] ,team
+  end 
 
-def calculate_fine(team_list,position,schedule)
-  schedule.each do |round|
-    round.each do |game|
-      puts game
+  schedule.each_with_index do |round,index|
+    puts "Round #{index+1}"
+    round.each do |match|
+      puts teams[match.first - 1].name.to_s + " X " + teams[match.last - 1].name.to_s
     end
   end
+=end
+
+def teams_from_city(teams)
+  city_teams = {}
+  teams.each do |team|
+    if city_teams[team.city]
+      city_teams[team.city] << team
+    else
+      city_teams[team.city] = [team]
+    end
+  end
+  city_teams
 end
+
+city_teams = teams_from_city(teams)
+city_teams.each_key do |city|
+  puts city.to_s
+  city_teams[city].each do |team|
+    puts "\t"+team.name.to_s
+  end
+end
+
+sp_teams = ["sao paulo","palmeiras","corinthians","portuguesa"]
+puts sp_teams
+integers = (1..20).to_a 
+
+combinations = integers.combinations(sp_teams.size)
+
+def get_home_away_teams(round)
+  home_teams = []
+  away_teams = []
+  round.each do |match|
+    home_teams << match.first
+    away_teams << match.last
+  end
+  [home_teams,away_teams]
+end
+
+def compute_fine(combination,schedule)
+  fine = 0
+  schedule.each do |round|
+    arrays_home_array = get_home_away_teams(round)
+
+    home_teams = arrays_home_array.first
+    away_teams = arrays_home_array.last
+    home_teams_in_combination = 0
+    away_teams_in_combination = 0
+    combination.each do |team|
+      if home_teams.include?(team)
+        home_teams_in_combination += 1
+      else
+        away_teams_in_combination += 1
+      end
+    end
+    if home_teams_in_combination > 2 || away_teams_in_combination > 2 
+      fine += 100
+    end
+  end
+  fine
+end
+
+
+
+combinations.each do |combination|
+  puts combination.join(sep=",") if compute_fine(combination,schedule) == 0
+end
+
+

@@ -46,3 +46,10 @@ What is the doc directory?
 The professor asked me to write a proposal and a cronogram. So I wrote them and 
 put them in the doc directory. You are free to see my tex files.
 
+
+Changelog
+---------
+
+* November 23 - Now I'm testing all combinations to get one that we don't have more than two teams
+playing home or away in a round. It's hardcoded for the Paulistão input, but I will soon 
+get this working for a generic input.
