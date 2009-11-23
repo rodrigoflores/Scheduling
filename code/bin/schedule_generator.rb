@@ -88,3 +88,11 @@ schedule.each_with_index do |round,index|
   end
 end
 
+
+def calculate_fine(team_list,position,schedule)
+  schedule.each do |round|
+    round.each do |game|
+      puts game
+    end
+  end
+end
