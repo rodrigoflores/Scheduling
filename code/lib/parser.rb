@@ -45,7 +45,7 @@ module Parser
 
 	def Parser.get_city(stream)
 		city = stream.split(":")[2]
-		to_symbol(city)
+		to_symbol(city.chomp)
 	end
 
   def Parser.to_symbol(string)

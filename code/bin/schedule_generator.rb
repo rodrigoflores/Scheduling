@@ -106,28 +106,14 @@ def teams_from_city(teams)
 end
 
 city_teams = teams_from_city(teams)
+
+city_that_has_more_than_one_team = []
 city_teams.each_key do |city|
-  puts city.to_s
-  city_teams[city].each do |team|
-    puts "\t"+team.name.to_s
-  end
+  city_that_has_more_than_one_team << city if city_teams[city].size > 1
 end
 
-sp_teams = ["sao paulo","palmeiras","corinthians","portuguesa"]
-puts sp_teams
-integers = (1..20).to_a 
+integers = (1..teams.size).to_a 
 
-combinations = integers.combinations(sp_teams.size)
-
-def get_home_away_teams(round)
-  home_teams = []
-  away_teams = []
-  round.each do |match|
-    home_teams << match.first
-    away_teams << match.last
-  end
-  [home_teams,away_teams]
-end
 
 def compute_fine(combination,schedule)
   fine = 0
@@ -152,12 +138,30 @@ def compute_fine(combination,schedule)
   fine
 end
 
-
-puts "Here are the combinations (for integers in the range 1..20) that allow no more than two teams 
-from the same city playing away or at home in the same round"
-
-combinations.each do |combination|
-  puts combination.join(sep=",") if compute_fine(combination,schedule) == 0
+def get_home_away_teams(round)
+  home_teams = []
+  away_teams = []
+  round.each do |match|
+    home_teams << match.first
+    away_teams << match.last
+  end
+  [home_teams,away_teams]
 end
+
+
+
+allowed_combination = {}
+
+city_that_has_more_than_one_team.each do |city|
+  teams_from_the_city = city_teams[city]
+  combinations = integers.combinations(teams_from_the_city.size)
+  combinations_allowed = []
+  combinations.each do |combination|
+    combinations_allowed << combination if compute_fine(combination,schedule) == 0
+  end
+  allowed_combination[city] = combinations_allowed
+end
+
+puts allowed_combination.size
 
 
