@@ -109,7 +109,7 @@ city_teams = teams_from_city(teams)
 
 city_that_has_more_than_one_team = []
 city_teams.each_key do |city|
-  city_that_has_more_than_one_team << city if city_teams[city].size > 1
+  city_that_has_more_than_one_team << city if city_teams[city].size >= 2
 end
 
 integers = (1..teams.size).to_a 
@@ -162,6 +162,19 @@ city_that_has_more_than_one_team.each do |city|
   allowed_combination[city] = combinations_allowed
 end
 
-puts allowed_combination.size
+def valid_pair?(schedule,x,y)
+  schedule.each do |round|
+    arrays_home_array = get_home_away_teams(round)
+    array_home = arrays_home_array.first
+    array_away = arrays_home_array.last
+    if (array_home.include?(x) && array_home.include?(y)) || (array_away.include?(x) && array_away.include?(y))
+      return false
+    end 
+  end
+  true
+end
 
+(1..teams.size).to_a.combinations(2).each do |combination|
+  puts combination.join(sep=",") if valid_pair?(schedule,combination.first,combination.last)
+end
 
