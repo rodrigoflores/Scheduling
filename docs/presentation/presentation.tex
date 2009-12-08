@@ -10,7 +10,7 @@
 
 \usetheme{Marburg}
 
-\title{Escalonamento de times de futebol: Propriedades especiais do algoritmo \textit{HAP-pattern}}
+\title{Escalonamento de times de futebol: Estudando o algoritmo \textit{HAP}}
 
 \author{Rodrigo L. M. Flores \\ \url{flores@ime.usp.br}}
 
@@ -59,7 +59,7 @@
     \item \textbf{Força Bruta sobre um padrão de jogos} - $2.4 \cdot 10^{18}$ combinações a serem testadas (muito custoso)
     \item \textbf{Força Bruta sobre apenas um pedaço de tamanho $k$ da instância} - $\binom{n}{k} \le n!$. Se $n = 20$, $k = 3$, 
     $\binom{20}{3} = 1140$ combinações. (razoavelmente praticável)
-    \item Conclusão: podemos resolver os casos dos times de várias cidades e depois sortear os padrões para os outros times
+    \item Conclusão: podemos resolver os casos dos times de uma mesma cidade e depois sortear os padrões que faltam para os outros times
   \end{itemize}
 \end{frame}
 
@@ -101,7 +101,7 @@
 \begin{frame}
   \frametitle{Resultado interessante}
   \begin{itemize}
-    \item Os pares $(n/2 + 1,n)$, $(1,2)$,$(3,4)$,$(5,6)$,$\cdots$,$(n-2,n-1)$ possuem a seguinte propriedade: quando um deles joga em casa o outro joga
+    \item Os pares $(1,2)$,$(3,4)$,$(5,6)$,$\cdots$,$(n/2+1,n)$,$\cdots$,$(n-2,n-1)$ possuem a seguinte propriedade: quando um deles joga em casa o outro joga
     fora de casa;
     \item Estratégia interessante: definir para cada par de times da mesma cidade um par destes;
     \item Utilizando esta estratégia, gerar um campeonato; 
