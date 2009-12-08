@@ -108,35 +108,15 @@ end
 city_teams = teams_from_city(teams)
 
 city_that_has_more_than_one_team = []
+city_that_has_one_team = []
 city_teams.each_key do |city|
-  city_that_has_more_than_one_team << city if city_teams[city].size >= 2
-end
-
-integers = (1..teams.size).to_a 
-
-
-def compute_fine(combination,schedule)
-  fine = 0
-  schedule.each do |round|
-    arrays_home_array = get_home_away_teams(round)
-
-    home_teams = arrays_home_array.first
-    away_teams = arrays_home_array.last
-    home_teams_in_combination = 0
-    away_teams_in_combination = 0
-    combination.each do |team|
-      if home_teams.include?(team)
-        home_teams_in_combination += 1
-      else
-        away_teams_in_combination += 1
-      end
-    end
-    if home_teams_in_combination > 2 || away_teams_in_combination > 2 
-      fine += 100
-    end
+  if city_teams[city].size >= 2
+    city_that_has_more_than_one_team << city
+  else
+    city_that_has_one_team << city
   end
-  fine
 end
+
 
 def get_home_away_teams(round)
   home_teams = []
@@ -146,20 +126,6 @@ def get_home_away_teams(round)
     away_teams << match.last
   end
   [home_teams,away_teams]
-end
-
-
-
-allowed_combination = {}
-
-city_that_has_more_than_one_team.each do |city|
-  teams_from_the_city = city_teams[city]
-  combinations = integers.combinations(teams_from_the_city.size)
-  combinations_allowed = []
-  combinations.each do |combination|
-    combinations_allowed << combination if compute_fine(combination,schedule) == 0
-  end
-  allowed_combination[city] = combinations_allowed
 end
 
 def valid_pair?(schedule,x,y)
@@ -174,7 +140,35 @@ def valid_pair?(schedule,x,y)
   true
 end
 
+pairs = []
 (1..teams.size).to_a.combinations(2).each do |combination|
-  puts combination.join(sep=",") if valid_pair?(schedule,combination.first,combination.last)
+  pairs << combination  if valid_pair?(schedule,combination.first,combination.last)
+end
+
+assignment = []
+
+city_that_has_more_than_one_team.each do |city|
+  while city_teams[city].size >= 2
+    pair = pairs.pop
+    team1 = city_teams[city].pop.name
+    team2 = city_teams[city].pop.name
+    assignment[pair.first] = team1
+    assignment[pair.last] = team2
+  end
+end
+
+to_assign = []
+city_that_has_one_team.each do |city|
+  to_assign << city_teams[city].first.name
+end
+
+assignment.each_with_index do |assign,i|
+  if assign.nil? and i != 0 
+    assignment[i] = to_assign.pop
+  end
+end
+
+assignment.each_with_index do |assign,i|
+  printf "%d %s\n",i,assign
 end
 
