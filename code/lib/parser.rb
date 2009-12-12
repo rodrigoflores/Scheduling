@@ -1,5 +1,5 @@
 #!/usr/bin/ruby -w
-
+# encoding: utf-8
 
 =begin
   * Name: parser.rb

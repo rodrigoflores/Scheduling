@@ -41,4 +41,9 @@ class Array
 			return d.uniq
 		end
 	end
+
+	def random_element
+		index = rand(self.size)
+		self.delete_at(index)
+	end
 end

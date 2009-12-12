@@ -1,4 +1,5 @@
 #!/usr/bin/ruby -w
+# encoding: utf-8
 
 $LOAD_PATH.push File.join(File.dirname(__FILE__),"..","lib")
 
@@ -8,7 +9,7 @@ require "team"
 require "hap_generator"
 require "combo"
 
-USAGE = <<END
+USAGE = <<EOF
 
 Welcome to schedule generator!
 
@@ -35,7 +36,7 @@ schedule_file. So please watch carefully.
 
 If you like this program, please send me a postcard! 
 
-END
+EOF
 
 if ARGV[0].nil?
   puts USAGE
@@ -69,29 +70,6 @@ puts "Now I will generate the hap patterns"
 schedule = Generator::generate_schedule(teams.size)
 
 puts "Hap patterns generated"
-
-
-=begin
-  puts "Now I will assume that you don't want to minimize (our maximize) anything."
-  puts "So I will randomly assign for each team a random number from 1 to size of the team list"
-
-  integers = (1..teams.size).to_a
-
-  rand(20).times do 
-    integers.shuffle!
-  end
-
-  teams.each_with_index do |team,index|
-    printf "%d %s",integers[index] ,team
-  end 
-
-  schedule.each_with_index do |round,index|
-    puts "Round #{index+1}"
-    round.each do |match|
-      puts teams[match.first - 1].name.to_s + " X " + teams[match.last - 1].name.to_s
-    end
-  end
-=end
 
 def teams_from_city(teams)
   city_teams = {}
@@ -140,35 +118,85 @@ def valid_pair?(schedule,x,y)
   true
 end
 
+
 pairs = []
 (1..teams.size).to_a.combinations(2).each do |combination|
   pairs << combination  if valid_pair?(schedule,combination.first,combination.last)
 end
 
-assignment = []
+puts "I have the pairs. Let me assign a random pair for a pair of teams"
+
+assignments = []
 
 city_that_has_more_than_one_team.each do |city|
-  while city_teams[city].size >= 2
-    pair = pairs.pop
-    team1 = city_teams[city].pop.name
-    team2 = city_teams[city].pop.name
-    assignment[pair.first] = team1
-    assignment[pair.last] = team2
-  end
+	puts "Teams from: " + city.to_s
+	while city_teams[city].size > 1
+		team1 = city_teams[city].random_element
+		team2 = city_teams[city].random_element
+		puts "I got #{team1.name} and #{team2.name}"
+		pair = pairs.random_element 
+		puts "I got the pair #{pair.first} #{pair.last} "
+		assignments[pair.random_element] = team1
+		assignments[pair.random_element] = team2 
+	end
+	if city_teams[city].size == 1
+		city_that_has_one_team << city
+	end
 end
 
-to_assign = []
+remained_teams = []
 city_that_has_one_team.each do |city|
-  to_assign << city_teams[city].first.name
+	team = city_teams[city].first
+	remained_teams << team
 end
 
-assignment.each_with_index do |assign,i|
-  if assign.nil? and i != 0 
-    assignment[i] = to_assign.pop
-  end
+
+(1..teams.size).to_a.each do |index|
+	if assignments[index].nil?
+		team = remained_teams.random_element
+		puts "Team #{team.name} in index #{index}"
+		assignments[index] = team
+	end
 end
 
-assignment.each_with_index do |assign,i|
-  printf "%d %s\n",i,assign
+
+assignments.each_with_index do |as,index|
+	if index != 0 
+		printf "#{index} #{as.name}\n" 
+	end
 end
+
+puts "We have the assignments, now we will generate the season schedule: "
+
+puts
+printf "%20s\t%20s X %20s\n","City","Home Team", "Away Team"
+puts
+
+
+puts
+puts "First Leg "
+puts
+
+schedule.each_with_index do |round,index|
+	puts "Round #{index+1}"
+	puts
+	round.each do |match|
+		printf "%20s\t%20s X %20s\n",assignments[match.first].city,assignments[match.first].name,assignments[match.last].name
+	end
+	puts
+end
+
+puts
+puts "Second Leg "
+puts
+
+schedule.each_with_index do |round,index|
+	puts "Round #{index+20}"
+	puts
+	round.each do |match|
+		printf "%20s\t%20s X %20s\n",assignments[match.last].city,assignments[match.last].name,assignments[match.first].name
+	end
+	puts
+end
+
 
