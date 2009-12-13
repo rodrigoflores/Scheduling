@@ -21,8 +21,42 @@
 
 \begin{document}
 
-
 \maketitle
+
+\section{Introdução}
+
+Torneios de futebol há muito tempo deixaram de ser apenas mero entretenimento para se tornar espetáculos televisivos,
+com audiências em níveis bastante elevados e torcidas ocupando cada cadeira do estádio. Estes espetáculos movimentam
+alguns bilhões de reais no mundo, seja em patrocínios, transferências de jogadores, arrecadação da venda de ingressos,
+venda de produtos licenciados por clubes, entre outras coisas. 
+
+Torcedores se tornam apaixonados pelos seus clubes e a rivalidade com torcedores de outro clube é tão grande a 
+ponto de os confrontos com torcedores de uma torcida 
+adversária formarem um ambiente semelhante ao de uma guerra, vandalizando o ambiente em sua volta e deixando  
+torcedores mortos e feridos.
+
+Embora este problema seja bem comum no Brasil, em outros países como Argentina, Inglaterra, Escócia, Turquia e Itália também costumam
+ter problemas parecidos podendo (ou não) ter um plano de fundo político, étnico ou religioso. Por exemplo, os times \textit{Rangers} 
+e \textit{Celtic} da cidade de \textit{Glasgow}, Escócia acabam por incluir nesta briga o ódio já existente 
+entre protestantes e católicos. 
+
+A questão televisiva também é importante: normalmente não é permitido que a televisão aberta transmita um jogo para a cidade 
+na qual acontecerá o jogo. Isso incentiva torcedores a irem ao estádio e acompanharem ao vivo as partidas do seu time. Exceções
+costumam acontecer em jogos finais nos quais os estádios normalmente estão lotados e o jogo tem muita audiência. 
+
+Sabendo disso, é necessário gerar tabelas de torneio que levem em conta esse aspecto de não permitir que dois times da mesma cidade joguem 
+no mesmo dia, na mesma cidade. Como algumas cidades, como São Paulo e Rio de Janeiro, há mais de dois times, 
+é necessário que as rodadas sejam divididas em pelo menos dois dias.  Se chamarmos o número máximo de equipes de uma mesma cidade
+de $M$, o número de dias que uma rodada deve durar deve ser $\lceil\frac{M}{2}\rceil$. Felizmente, o número de times de uma
+mesma cidade dificilmente passa de $4$, o que permite que rodadas durem apenas $2$ dias (um fim de semana ou uma quarta e quinta).
+
+O objetivo deste trabalho é: dado times e suas cidades, gerar uma tabela para um campeonato de pontos corridos (isto é, todos os times
+se enfrentando em jogos de ida e volta) sem que dois times joguem na mesma cidade em uma mesma rodada em um mesmo dia, 
+ou, especificamente, sem que mais de $2$ times joguem como mandante na mesma cidade na 
+mesma rodada (considerando uma rodada durando $2$ dias). 
+
+
+
 
 \bibliographystyle{amsalpha}
 \bibliography{bibliografia}
