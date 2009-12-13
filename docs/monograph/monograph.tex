@@ -6,7 +6,8 @@
 \usepackage{times}
 \usepackage{ucs}
 \usepackage{url}
-
+\usepackage{algorithmic}
+\usepackage{algorithm}
 
 
 \title{Monografia do projeto do Curso de Introdução ao Escalonamento \\ Geração de tabelas de futebol}
@@ -56,7 +57,53 @@ ou, especificamente, sem que mais de $2$ times joguem como mandante na mesma cid
 mesma rodada (considerando uma rodada durando $2$ dias). 
 
 
+\section{Possíveis abordagens}
 
+Uma das possíveis abordagens para a solução deste problema é gerar todas as tabelas possíveis e buscar as que atendem ao nosso critério. 
+Como o número de combinações para $20$ equipes (da ordem de $10^{130}$) é gigantesco, podemos rapidamente descartar esta solução. Uma outra abordagem
+seria gerar um padrão de jogos e fazer uma busca nestas soluções: gerar todas as combinações é da ordem de $n!$, que para $n$ pequeno (menor que $25$)
+é bem possível fazer este cálculo. 
+
+Como muitos times não tem esse problema por eles não terem outros times da mesma cidade disputando o mesmo campeonato, podemos pensar em outra abordagem:
+resolver primeiro os times que têm esse problema, e as vagas que sobrarem serão sorteadas para os outros times. Assim garantimos uma solução mais rápida.
+
+\section{Algoritmo de geração de padrões}
+
+O algoritmo, retirado do artigo \cite{90Schreuder}, gera os padrões de jogos (chamados no artigo de \textit{HAP}, 
+\textit{Home Away Pattern}) da seguinte maneira: dado um jogo gerador 
+(que é o jogo do time $i$ com o $i+1$ na rodada $i$) ele gera os outros jogos da rodada da seguinte maneira:
+
+\begin{algorithm}
+\caption{Algoritmo para geração das rodadas}
+\label{HAP}
+\begin{algorithmic}
+\STATE $invert \leftarrow TRUE$
+\STATE $round \leftarrow [generatorGame]$
+\FOR{$i = 1$ to $\lfloor N/2 \rfloor$}
+	\STATE $team1 \leftarrow normalize(generatorGame.home + i)$
+	\STATE $team2 \leftarrow normalize(generatorGame.away-i)$
+	\IF{$invert$}
+		\STATE $round.append((team2,team1))$
+		\STATE $invert \leftarrow FALSE$
+	\ELSE
+		\STATE $round.append((team1,team2))$
+		\STATE $invert \leftarrow TRUE$
+	\ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+A rotina $normalize$ apenas tira o módulo $N$ e adiciona $1$ de modo a sempre termos um número no intervalo $1$ a $N$. 
+O \ref{HAP} resolve o problema para um número ímpar de times, já para um número par precisamos fazer uma artimanha:
+resolvemos para um número $N-1$ de times e o time que sobrou joga com o time $N$, que alterna entre jogos em casa e 
+jogos fora de casa. 
+
+Uma quebra de padrão \textit{Home-Away} é quando um time joga duas partidas seguidas fora ou dentro de casa. Para
+um número ímpar de times, o algoritmo tem $0$ quebras de padrão \textit{Home-Away}, já para um número par de times
+acontecem $2N-2$ quebras, o que pode não ser bom mas ainda assim é aceitável. A prova desta propriedade
+pode ser vista no artigo \cite{90Schreuder}.
+
+\subsection{Propriedade especial do algoritmo \textit{HAP}}
 
 \bibliographystyle{amsalpha}
 \bibliography{bibliografia}
