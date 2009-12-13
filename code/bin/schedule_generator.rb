@@ -124,6 +124,10 @@ pairs = []
   pairs << combination  if valid_pair?(schedule,combination.first,combination.last)
 end
 
+pairs.each do |pair|
+	puts pair.join(sep=",")
+end
+
 puts "I have the pairs. Let me assign a random pair for a pair of teams"
 
 assignments = []

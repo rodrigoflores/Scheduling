@@ -103,7 +103,56 @@ um número ímpar de times, o algoritmo tem $0$ quebras de padrão \textit{Home-
 acontecem $2N-2$ quebras, o que pode não ser bom mas ainda assim é aceitável. A prova desta propriedade
 pode ser vista no artigo \cite{90Schreuder}.
 
+Um campeonato sem restrição seria uma atribuição de cada time a um destes padrões. Porém, para o nosso problema, queremos atribuir 
+de modo a minimizar o número de jogos no mesmo dia na mesma rodada. 
+
 \subsection{Propriedade especial do algoritmo \textit{HAP}}
+
+Para $N = 20$, descobriu-se uma propriedade bastante interessante: utilizando um dos pares dentre 
+$(1,2)$,$(3,4)$,$(5,6)$,$(7,8)$,$(9,10)$,$(11,20)$,$(12,13)$,$(14,15)$,$(16,17)$ e $(18,19)$, podemos colocar dois times da mesma
+cidade atribuidos aos pares e sempre que um deles jogar em casa o outro jogará fora de casa. 
+Isso permite que utilizemos estes pares para colocar dois times da mesma cidade e eles não terão jogos simultaneamente
+dentro ou fora de casa (como o campeonato tem turno e returno, os dois jogando fora de casa certamente terá os dois
+jogando dentro de casa no returno). Chamaremos esses pares de \textit{pares complementares}.
+
+
+
+\subsection{Atribuição dos times}
+
+A atribuição dos times aos padrões é feito da seguinte maneira:
+
+\begin{enumerate}
+	\item Obtemos uma lista das cidades que tem mais de um time. Guardamos também em uma lista o complemento desta.
+	\item Utilizando a lista das cidades que tem mais de um time, atribuimos, por meio de um sorteio, para cada par de times um par complementar.  
+Se o número de times da cidade for ímpar, o time restante é incluído na lista de cidades com apenas um time.
+	\item Atribuimos para cada atribuição de padrões um time sorteado de alguma das cidades pertencente à lista de cidades com apenas um time.
+\end{enumerate}
+
+Ao fim deste processo, temos o campeonato gerado, sem mais de dois times jogando na mesma cidade na mesma rodada, o que é o 
+melhor caso da minimização proposta. Embora o programa utilize um algoritmo combinatório para encontrar os pares, podemos
+colocá-los \emph{hardcoded} no programa, para assim resolvê-lo em um tempo não exponencial. 
+
+\section{Implementação}
+
+A implementação foi feita na linguagem de programação Ruby. O código foi dividido em $4$ pastas:
+\begin{itemize}
+	\item \textbf{bin -} Contém o gerador de tabelas propriamente dito. Considere este programa como o \emph{main} deste script;
+	\item \textbf{data -} Contém algumas entradas que podem ser utilizadas para a utilização do programa; 
+	\item \textbf{lib -} Contém as implementaçõs de HAP, da classe de times, do parser do arquivo de entrada. Há também um arquivo;
+	\item \textbf{spec -} Contém os testes do gerador de \emph{HAP}, do parser e da classe de times.
+que define algums métodos adicionais criados para a classe \emph{Array} que facilitaram o trabalho.
+\end{itemize}
+
+Detalhes de como se executar podem ser encontrados no arquivo README.md na pasta raíz do projeto. 
+
+
+\section{Conclusão}
+
+O objetivo proposto na introdução foi cumprido: temos uma tabela com nenhum jogo na mesma cidade no mesmo dia. Porém há duas 
+sugestões de melhorias: evitar que uma equipe enfrente dois adversários fortes ou fracos em seguida, minimizar a distância percorrida
+por cada time (embora isto seja pouco utilizado na prática, pois os times normalmente voltam para sua cidade para os
+jogadores irem para suas casas ou para enfrentarem times em outros campeonatos como copa do Brasil, que pode ter uma partida
+em qualquer estado do Brasil ou a taça libertadores, que pode ter uma partida em qualquer país da América do Sul ou no México).
 
 \bibliographystyle{amsalpha}
 \bibliography{bibliografia}
